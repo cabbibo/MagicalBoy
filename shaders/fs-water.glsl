@@ -74,7 +74,7 @@ void main(){
   vec3 fC = reflC *fr*5.* aC2+ vec3( .5, .9, 2. ) * fr * aC;
 
   //fC = reflC*fr*5.;
-  gl_FragColor = vec4( aC ,  length( fC ) );
+  gl_FragColor = vec4( fC ,  length( fC ) );
 
 
 }

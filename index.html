@@ -83,24 +83,24 @@
 
 
   var loaded = 0;
-  var neededToLoad = 3;
+  var neededToLoad = 2;
 
   var waterRender = { type:"f" ,value:0}
 
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  audioController.mute.gain.value = 0;
+  //audioController.mute.gain.value = 0;
 
-  //var stream = new Stream(  'audio/norrland.mp3',audioController  );
+  var stream = new Stream(  'audio/norrland.mp3',audioController  );
 
-  var userAudio = new UserAudio( audioController );
+  /*var userAudio = new UserAudio( audioController );
 
   userAudio.onStreamCreated = function(){
 
     onLoad();
 
-  }
+  }*/
 
   //var userMedia = new UserMedia
   var lT = THREE.ImageUtils.loadTexture;
@@ -228,7 +228,7 @@
 
     });
     water = new THREE.Mesh(
-      new THREE.PlaneGeometry( 10000 , 10000 ),
+      new THREE.PlaneGeometry( 100000 , 100000 ),
       material 
     );
 
@@ -462,7 +462,7 @@
 
       init();
       animate();
-     // stream.play();
+      stream.play();
 
     }
 

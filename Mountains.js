@@ -2,21 +2,20 @@ function Mountains( params ){
 
   var p = _.defaults( params || {} , {
 
-    radius: 600,
+    radius: 100,
 
 
-    randHeight: 1.8,
-    randRadius: 1.4,
-    randWidth: 1.9,
-    width: 600,
-    height: 200,
+    randHeight: 5.2,
+    randRadius: .4,
+    randWidth: 4.9,
+    width: 1000,
+    height: 300,
     material: new THREE.MeshNormalMaterial(),
     numOf: 50,
     detail: 50,
 
 
   });
-  var radius = radius || 2000;
   var material = new THREE.MeshNormalMaterial();
 
   var v1 = new THREE.Vector3();
