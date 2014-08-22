@@ -38,6 +38,7 @@ function Mountains( params ){
 
   geo.addAttribute( 'position' , pos );
   geo.addAttribute( 'normal' , norm );
+  geo.addAttribute( 'uv' , uv );
   
   var positions = pos.array;
   var normals   = norm.array;
@@ -182,8 +183,36 @@ function Mountains( params ){
         uvs[ uvIndex + 0 ] = j / p.detail;
         uvs[ uvIndex + 1 ] = k / p.detail;
         
-        uvs[ uvIndex + 1 ] = j+1 / p.detail;
-        uvs[ uvIndex + 2 ] = k+1 / p.detail;
+        uvs[ uvIndex + 2 ] = j / p.detail;
+        uvs[ uvIndex + 3 ] = (k+1) / p.detail;
+
+        uvs[ uvIndex + 4 ] = (j+1) / p.detail;
+        uvs[ uvIndex + 5 ] = k / p.detail;
+
+        uvs[ uvIndex + 6 ] = (j+1) / p.detail;
+        uvs[ uvIndex + 7 ] = k / p.detail;
+
+        uvs[ uvIndex + 8 ] = j / p.detail;
+        uvs[ uvIndex + 9 ] = (k+1) / p.detail;
+
+        uvs[ uvIndex + 10 ] = (j+1) / p.detail;
+        uvs[ uvIndex + 11 ] = (k+1) / p.detail;
+
+        
+        /*uvs[ uvIndex + 0 ] = Math.random();
+        uvs[ uvIndex + 1 ] = Math.random();
+        uvs[ uvIndex + 2 ] = Math.random();
+        uvs[ uvIndex + 3 ] = Math.random();
+        uvs[ uvIndex + 4 ] = Math.random();
+        uvs[ uvIndex + 5 ] = Math.random();
+        uvs[ uvIndex + 6 ] = Math.random();
+        uvs[ uvIndex + 7 ] = Math.random();
+        uvs[ uvIndex + 8 ] = Math.random();
+        uvs[ uvIndex + 9 ] = Math.random();
+        uvs[ uvIndex + 10 ] = Math.random();
+        uvs[ uvIndex + 11 ] = Math.random();*/
+
+
 
        // asbasfbasfbasbasgads ()13234f12[
         //console.log( fIndex );

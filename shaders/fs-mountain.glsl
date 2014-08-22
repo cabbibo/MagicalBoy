@@ -3,6 +3,7 @@ uniform float waterRender;
 
 varying vec3 vNormal;
 varying vec3 vPos;
+varying vec2 vUv;
 
 void main(){
 
@@ -24,6 +25,8 @@ void main(){
 
   }
 
-  gl_FragColor = vec4( c * abs( vNormal ) , a );
+  gl_FragColor = vec4( c * abs( vNormal ), a );
+
+  gl_FragColor = vec4( vec3( vUv.x , vUv.y , 0. ) * a, a );
 
 }

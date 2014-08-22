@@ -90,7 +90,7 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  audioController.mute.gain.value = 0;
+  //audioController.mute.gain.value = 0;
 
   var stream = new Stream(  'audio/norrland.mp3',audioController  );
   
@@ -384,18 +384,25 @@
 
     stats.update();
 
-    //controls.update();
+    controls.update();
 
-   updateCamera();
+    //updateCamera();
 
     var t = timer.value;
 
     
 
 
-    waterCam.position.copy( camera.position );
+    waterCam.matrix.copy( camera.matrix );
+    waterCam.matrixNeedsUpdate = true;
+
+    /*waterCam.position.copy( camera.position );
+    waterCam.rotation.copy( camera.rotation );
+    waterCam.up.copy( camera.up );*/
+
+
     waterCam.position.y *= -1;
-    waterCam.lookAt( new THREE.Vector3() );
+    //waterCam.lookAt( new THREE.Vector3() );
 
     waterRender.value = 1;
     water.visible = false;
