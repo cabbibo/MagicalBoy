@@ -384,25 +384,18 @@
 
     stats.update();
 
-    controls.update();
+    //controls.update();
 
-    //updateCamera();
+   updateCamera();
 
     var t = timer.value;
 
     
 
 
-    waterCam.matrix.copy( camera.matrix );
-    waterCam.matrixNeedsUpdate = true;
-
-    /*waterCam.position.copy( camera.position );
-    waterCam.rotation.copy( camera.rotation );
-    waterCam.up.copy( camera.up );*/
-
-
+    waterCam.position.copy( camera.position );
     waterCam.position.y *= -1;
-    //waterCam.lookAt( new THREE.Vector3() );
+    waterCam.lookAt( new THREE.Vector3() );
 
     waterRender.value = 1;
     water.visible = false;

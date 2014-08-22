@@ -27,6 +27,6 @@ void main(){
 
   gl_FragColor = vec4( c * abs( vNormal ), a );
 
-  gl_FragColor = vec4( vec3( vUv.x , vUv.y , 0. ) * a, a );
+  //gl_FragColor = vec4( vec3( vUv.x , vUv.y , 0. ) * a, a );
 
 }
