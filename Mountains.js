@@ -12,7 +12,7 @@ function Mountains( params ){
     height: 300,
     material: new THREE.MeshNormalMaterial(),
     numOf: 50,
-    detail: 50,
+    detail: 30,
 
 
   });
@@ -41,6 +41,7 @@ function Mountains( params ){
   
   var positions = pos.array;
   var normals   = norm.array;
+  var uvs       = uv.array;
 
  
   var center = p.detail / 2;
@@ -75,7 +76,6 @@ function Mountains( params ){
         var index = mountainIndex + ( j * p.detail + k ) * 3 * 2;
         var fIndex = index * 3;
         var uvIndex = index * 2;
-
 
         // center
         var jC = 1 - ((Math.abs( j-center ) * 2 ) / p.detail);
@@ -179,6 +179,13 @@ function Mountains( params ){
         normals[ fIndex + 17 ] = normal.z;
 
 
+        uvs[ uvIndex + 0 ] = j / p.detail;
+        uvs[ uvIndex + 1 ] = k / p.detail;
+        
+        uvs[ uvIndex + 1 ] = j+1 / p.detail;
+        uvs[ uvIndex + 2 ] = k+1 / p.detail;
+
+       // asbasfbasfbasbasgads ()13234f12[
         //console.log( fIndex );
       
       }

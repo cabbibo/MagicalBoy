@@ -43,7 +43,7 @@ void main(){
   vec2 offset = vec2( sin( timer * .0142)  , cos( timer * .02345 ) );
   vec3 mapN = texture2D( t_normal, vUv+offset ).xyz * 2.0 - 1.0;
   mapN += texture2D( t_normal, vUv-offset ).xyz * 2.0 - 1.0;
-  mapN.xy = normalScale* 20. * mapN.xy;
+  mapN.xy = normalScale* 0. * mapN.xy;
  
   mat3 tsn = mat3( S, T, N );
   vec3 fNormal =  normalize( tsn * mapN ); 
@@ -74,7 +74,8 @@ void main(){
   vec3 fC = reflC *fr*5.* aC2+ vec3( .5, .9, 2. ) * fr * aC;
 
   //fC = reflC*fr*5.;
-  gl_FragColor = vec4( fC ,  length( fC ) );
+  gl_FragColor = vec4( reflC,  length( reflC ) );
+
 
 
 }

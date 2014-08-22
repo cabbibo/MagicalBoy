@@ -90,11 +90,18 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  //audioController.mute.gain.value = 0;
+  audioController.mute.gain.value = 0;
 
   var stream = new Stream(  'audio/norrland.mp3',audioController  );
+  
 
   /*var userAudio = new UserAudio( audioController );
+
+
+  encode tree into gpu, placing vertices around column like forest page.
+  use the amount up the branch as a lookup into the audio, and displace based on this.
+
+  -Could also just use look up, and displace in direction of normal.
 
   userAudio.onStreamCreated = function(){
 
@@ -228,7 +235,7 @@
 
     });
     water = new THREE.Mesh(
-      new THREE.PlaneGeometry( 100000 , 100000 ),
+      new THREE.PlaneGeometry( 30000 , 30000 ),
       material 
     );
 
