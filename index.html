@@ -70,6 +70,8 @@
 
   var sceneSize = 5000;
 
+
+  var treeArray = [];
   var handGeo;
   var skullGeo;
   var tendrilGeo;
@@ -90,24 +92,19 @@
   var clock = new THREE.Clock();
 
   var audioController = new AudioController();
-  //audioController.mute.gain.value = 0;
+  audioController.mute.gain.value = 0;
 
-  var stream = new Stream(  'audio/norrland.mp3',audioController  );
+
+  var stream;// = new Stream(  'audio/norrland.mp3',audioController  );
   
 
-  /*var userAudio = new UserAudio( audioController );
-
-
-  encode tree into gpu, placing vertices around column like forest page.
-  use the amount up the branch as a lookup into the audio, and displace based on this.
-
-  -Could also just use look up, and displace in direction of normal.
+  var userAudio = new UserAudio( audioController );
 
   userAudio.onStreamCreated = function(){
 
     onLoad();
 
-  }*/
+  }
 
   //var userMedia = new UserMedia
   var lT = THREE.ImageUtils.loadTexture;
@@ -133,6 +130,8 @@
 
   shaders.load( 'fs-water' , 'water' , 'fragment' );
   shaders.load( 'vs-water' , 'water' , 'vertex' );
+  shaders.load( 'fs-tree' , 'tree' , 'fragment' );
+  shaders.load( 'vs-tree' , 'tree' , 'vertex' );
   shaders.load( 'fs-mountain' , 'mountain' , 'fragment' );
   shaders.load( 'vs-mountain' , 'mountain' , 'vertex' );
 
@@ -223,7 +222,7 @@
       lightPos:{type:"v3" , value: new THREE.Vector3( 0 , 300 , -400 ) },
       SS:{ type:"v2", value: new THREE.Vector2( w*2 , h*2 ) },
       timer:timer,
-      normalScale:{type:"f",value:1.}
+      normalScale:{type:"f",value:100.}
     }
 
     var material = new THREE.ShaderMaterial({
@@ -249,13 +248,34 @@
     sun.position.y = 200;
     scene.add( sun );*/
 
+    var uniforms = {
+      t_audio:t_audio
+
+    }
+
+    var attributes = {
+      slice:{type:"f" , value:null}
+    }
+
+    var treeMat = new THREE.ShaderMaterial({
+
+      uniforms:uniforms,
+      attributes:attributes,
+      vertexShader: shaders.vertexShaders.tree,
+      fragmentShader: shaders.fragmentShaders.tree,
+      transparent: true,
+     // blending: THREE.AdditiveBlending,
+      //depthWrite: false
+
+    });
+
     var params = {
       radius:                 40,
       height:                400,
-      sides:                    8,
+      sides:                    5,
       numOf:                   18, 
-      randomness:             108,
-      slices:                 100,
+      randomness:             50,
+      slices:                 200,
       startingChance:          4.,
       chanceReducer:           .9,
       randomnessReducer:       .5,
@@ -264,84 +284,26 @@
       progressionPower:        1.4,
       lengthReduction:         .5,
       maxIterations:            3,
-      material:           new THREE.MeshNormalMaterial(),
+      material:               treeMat, 
       createTree: function(){
         createTree();
       }
     }
 
-    /*var tree = new Tree( params );
-
-    tree.position.z = 500;
-    tree.position.x = -400;
-
-    var base = new THREE.Mesh(
-      new THREE.IcosahedronGeometry( 300 , 3 ),
-      new THREE.MeshNormalMaterial()
-    );
-
-    base.scale.y *= .2;
-
-    tree.add( base );
-    scene.add( tree );
-
-
-    var tree = new Tree( params );
-
-    tree.position.z = 500;
-    tree.position.x = 600;
-
-    var base = new THREE.Mesh(
-      new THREE.IcosahedronGeometry( 300 , 3 ),
-      new THREE.MeshNormalMaterial()
-    );
-
-    base.scale.y *= .2;
-
-    tree.add( base );
-
-    scene.add( tree );*/
 
     var trees = new THREE.Object3D();
 
     for( var i =0; i < 6; i++ ){
 
+      params.randomness = 100 * (Math.random()+.5);
+      params.slices = Math.floor(  50 * (Math.random()+.5) );
       var tree = new Tree( params );
       tree.rotation.z = (i / 6 ) * 2 * Math.PI;
       trees.add( tree );
 
-     /* console.log( tree.tipPoints );
+      treeArray.push( tree );
 
-      var size = tree.tipPoints.length;
-      var geo = new THREE.BufferGeometry();
-      var pos = new THREE.BufferAttribute( new Float32Array( size * 2 * 3 ) , 3 );
-
-      geo.addAttribute( 'position' , pos );
-      var positions = pos.array;
-
-      for( var i = 0; i < size; i++ ){
-
-        var fIndex = i * 2 * 3;
-
-        var p = tree.tipPoints[ i ];
-        
-        positions[ fIndex + 0 ] = p.x;
-        positions[ fIndex + 1 ] = p.y;
-        positions[ fIndex + 2 ] = p.z;
-
-        positions[ fIndex + 3 ] = 0;
-        positions[ fIndex + 4 ] = 0;
-        positions[ fIndex + 5 ] = 1000;
-
-      }
-
-      var material = new THREE.LineBasicMaterial();
-
-      var line = new THREE.Line( geo , material , THREE.LinePieces );
-      
-      trees.add( line );*/
-
-    }
+     }
 
     trees.rotation.x = Math.PI / 2;
     trees.position.y = 500;
@@ -351,8 +313,7 @@
     var uniforms = {
 
       waterRender: waterRender,
-
-
+      t_audio: t_audio
 
     }
 
@@ -386,12 +347,19 @@
 
     //controls.update();
 
-   updateCamera();
+    updateCamera();
 
     var t = timer.value;
 
     
 
+    for( var i = 0; i < treeArray.length; i++ ){
+
+      treeArray[i].rotation.x += .0005* (i+1);
+      treeArray[i].rotation.y += .0002* (i+1);
+      treeArray[i].rotation.z += .0001* ( i +1 );
+
+    }
 
     waterCam.position.copy( camera.position );
     waterCam.position.y *= -1;
@@ -439,6 +407,7 @@
 
 
   }
+
   // Resets the renderer to be the proper size
   function onWindowResize(){
 
@@ -452,8 +421,8 @@
     renderer.setSize( window.innerWidth, window.innerHeight );
     //waterTexture.setSize( window.innerWidth, window.innerHeight );
 
-    uniforms.SS.value.x = window.innerWidth * 2;
-    uniforms.SS.value.y = window.innerHeight * 2;
+    //uniforms.SS.value.x = window.innerWidth * 2;
+    //uniforms.SS.value.y = window.innerHeight * 2;
 
 
   }
@@ -469,7 +438,12 @@
 
       init();
       animate();
-      stream.play();
+      
+      if( stream ){
+      
+        stream.play();
+
+      }
 
     }
 

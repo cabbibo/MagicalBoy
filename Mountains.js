@@ -12,7 +12,8 @@ function Mountains( params ){
     height: 300,
     material: new THREE.MeshNormalMaterial(),
     numOf: 50,
-    detail: 30,
+    detail: 10,
+
 
 
   });
