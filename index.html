@@ -58,9 +58,12 @@
 <script src = "lib/AudioController.js"      ></script>
 <script src = "lib/AudioTexture.js"         ></script>
 <script src = "lib/ObjectControls.js"       ></script>
+<script src = "lib/PhysicsRenderer.js"      ></script>
+<script src = "lib/ParticleUtils.js"      ></script>
 <script src = "lib/leap.js"                 ></script>
 <script src = "lib/Tree.js"                 ></script>
-<script src = "Mountains.js"                 ></script>
+<script src = "Particles.js"      ></script>
+<script src = "Mountains.js"                ></script>
 
 <script>
 
@@ -134,6 +137,9 @@
   shaders.load( 'vs-tree' , 'tree' , 'vertex' );
   shaders.load( 'fs-mountain' , 'mountain' , 'fragment' );
   shaders.load( 'vs-mountain' , 'mountain' , 'vertex' );
+  shaders.load( 'fs-particles' , 'particles' , 'fragment' );
+  shaders.load( 'vs-particles' , 'particles' , 'vertex' );
+  shaders.load( 'ss-particles' , 'particles' , 'simulation' );
 
   shaders.shaderSetLoaded = function(){
    onLoad();
@@ -219,7 +225,7 @@
       t_scene:{ type:"t" , value: waterTexture },
       t_normal:{ type:"t" , value: waterNormal },
       t_audio: t_audio,
-      lightPos:{type:"v3" , value: new THREE.Vector3( 0 , 300 , -400 ) },
+      lightPos:{type:"v3" , value: new THREE.Vector3( 0 , 300 , 0 ) },
       SS:{ type:"v2", value: new THREE.Vector2( w*2 , h*2 ) },
       timer:timer,
       normalScale:{type:"f",value:100.}
@@ -249,7 +255,8 @@
     scene.add( sun );*/
 
     var uniforms = {
-      t_audio:t_audio
+      t_audio:t_audio,
+      waterRender:waterRender
 
     }
 
@@ -306,8 +313,17 @@
      }
 
     trees.rotation.x = Math.PI / 2;
-    trees.position.y = 500;
+    trees.position.y = 00;
     scene.add( trees );
+
+
+    params.height = 600;
+    params.radius = 80;
+    params.sides = 8;
+    params.randomness = 100;
+    params.slices = 100;
+    var t = new Tree( params );
+    scene.add( t );
 
 
     var uniforms = {
@@ -332,6 +348,9 @@
     });
     scene.add( mountains );
 
+    particles = new Particles();
+    scene.add( particles.three );
+
   }
 
 
@@ -342,6 +361,7 @@
 
     dT.value = clock.getDelta();
     timer.value += dT.value;
+    particles.update();
 
     stats.update();
 
@@ -353,13 +373,13 @@
 
     
 
-    for( var i = 0; i < treeArray.length; i++ ){
+    /*for( var i = 0; i < treeArray.length; i++ ){
 
       treeArray[i].rotation.x += .0005* (i+1);
       treeArray[i].rotation.y += .0002* (i+1);
       treeArray[i].rotation.z += .0001* ( i +1 );
 
-    }
+    }*/
 
     waterCam.position.copy( camera.position );
     waterCam.position.y *= -1;
