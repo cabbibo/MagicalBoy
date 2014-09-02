@@ -24,14 +24,15 @@ void main(){
   float a = 1.;
   if( vMPos.y < 0. ){
 
-    c = vec3( .3 , .8 , 1. ) * (100. - abs( vMPos.y )) /100.;
+    c = vec3( 2. , .8 , 1. ) * ((100. - abs( vMPos.y )) /100.)* ((100. - abs( vMPos.y )) /100.);
     a = 3. - abs( vMPos.y );
 
   }
 
+  vec3 mColor = mix( vec3( .2 , .7 , .9 ) , vec3( .4, 0. , 1. ) , vSlice );
 
   vec4 aC = texture2D( t_audio , vec2( vSlice , 0. ) );
-  gl_FragColor =vec4( c * aC.xyz * vec3( .6 , .6 , .9 ) , 1. );
+  gl_FragColor =vec4( c * aC.xyz * mColor , 1. );
 }
 
 

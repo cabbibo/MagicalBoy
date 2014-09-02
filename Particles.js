@@ -30,8 +30,8 @@ function Particles(){
     vertexShader: shaders.vertexShaders.particles,
     fragmentShader: shaders.fragmentShaders.particles,
     transparent: true,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false
+    //blending: THREE.AdditiveBlending,
+   // depthWrite: false
   });
  
   this.three = new THREE.PointCloud( geo , mat );
@@ -39,7 +39,7 @@ function Particles(){
   this.physics.addBoundTexture( this.three , 't_pos' , 'output' );
   this.physics.addBoundTexture( this.three , 't_oPos' , 'oOutput' );
 
-  var mesh = new THREE.Mesh( new THREE.CubeGeometry( 10000,.1 , 10000, 100 , 1 , 100) );
+  var mesh = new THREE.Mesh( new THREE.CubeGeometry( 3000,.1 , 3000, 100 , 1 , 100) );
   
   mesh.rotation.x = Math.PI / 2;
   var posTexture = ParticleUtils.createPositionsTexture( this.size , mesh );

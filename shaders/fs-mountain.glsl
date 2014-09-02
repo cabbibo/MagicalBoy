@@ -6,6 +6,7 @@ uniform vec3 camPos;
 
 varying vec3 vNormal;
 varying vec3 vPos;
+varying vec3 vMPos;
 varying vec2 vUv;
 
 
@@ -24,15 +25,16 @@ void main(){
   float a = 1.;
   if( vPos.y < 0. ){
 
-    c = vec3( .3 , .8 , 1. ) * (100. - abs( vPos.y )) /100.;
+    c = vec3( .1 , .1 , .6 ) * (100. - abs( vPos.y )) /100.;
     a = 3. - abs( vPos.y );
 
   }
 
   vec4 aC = texture2D( t_audio , vec2( abs( vNormal.x ) , 0. ) );
-  
-  gl_FragColor = vec4( c * aC.xyz , a );
+ 
+  vec4 multiColor = mix( vec4( 1. , .8 , .3 , 1. ) , vec4( 1. , .2 , 0. , 1.) , 100. / vMPos.y );
+  gl_FragColor = vec4( c * aC.xyz , a ) * multiColor;
 
-  //gl_FragColor = vec4( vec3( vUv.x , vUv.y , 0. ) * a, a );
+    //gl_FragColor = vec4( vec3( vUv.x , vUv.y , 0. ) * a, a );
 
 }

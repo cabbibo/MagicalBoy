@@ -60,7 +60,7 @@ void main(){
 
 
   vec2 nScreenCoord = gl_FragCoord.xy / SS;
-  vec3 reflC = texture2D( t_scene , nScreenCoord  ).xyz;
+  vec4 reflC = texture2D( t_scene , nScreenCoord  );
  
   float fr = facingRatio;
   float uF = 1. - fr;
@@ -69,13 +69,13 @@ void main(){
 
   float uFM = uF * uF * uF * uF *uF*uF*uF;
 
-  vec3 aC = texture2D( t_audio , vec2( inverse_dot_view , 0. ) ).xyz;
-  vec3 aC2 = texture2D( t_audio , vec2( 1.-inverse_dot_view , 0. ) ).xyz;
-  vec3 fC = reflC *fr*5.* aC2+ vec3( .5, .9, 2. ) * fr * aC;
-  vec3 audC = texture2D( t_audio , vec2( fr , 0. )  ).xyz;
+  vec4 aC = texture2D( t_audio , vec2( inverse_dot_view , 0. ) );
+  vec4 aC2 = texture2D( t_audio , vec2( 1.-inverse_dot_view , 0. ) );
+  vec4 fC = reflC *fr*5.* aC2+ vec4( .5, .9, 2. , 1. ) * fr * aC;
+  vec4 audC = texture2D( t_audio , vec2( fr , 0. )  );
 
   //fC = reflC*fr*5.;
-  gl_FragColor = vec4( normalize(reflC * audC + vec3( .4 , .9 , .7 )),  length( fC )+.4 );
+  gl_FragColor = vec4( normalize(reflC * audC ))- vec4( 0. , 0. , 0. , length( fC ) );
 
 
 

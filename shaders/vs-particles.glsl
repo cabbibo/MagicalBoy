@@ -25,7 +25,7 @@ void main(){
   vMPos = ( modelMatrix * vec4( pos.xyz , 1. ) ).xyz;
 
   vAudio = texture2D( t_audio , vec2( vUv.x , 0. ) );
-  gl_PointSize = 5. * length( vAudio ) * length( vAudio );
+  gl_PointSize = 1. * length( vAudio ) * length( vAudio );
   gl_Position = projectionMatrix * modelViewMatrix * vec4( pos.xyz , 1. );
 
 
